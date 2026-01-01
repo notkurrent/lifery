@@ -1,0 +1,28 @@
+PHRASES = {
+    "ru": [
+        "168 часов ушли навсегда. Ты стал ближе к тому, кем хочешь быть?",
+        "Тик-так. Еще одна неделя вычеркнута. Твое время тает.",
+        "Жизнь не резиновая. Ты уверен, что тратишь её на то, что действительно важно?",
+        "Понедельник. Не обманывай себя, что начнешь 'новую жизнь' завтра.",
+        "Memento Mori. Помни о смерти, чтобы по-настоящему жить.",
+        "Твое время ограничено. Не трать его, проживая чужую жизнь.",
+        "Если бы эта неделя была последней в твоей жизни, ты был бы доволен?",
+        "Минус одна неделя. Ты оставил после себя что-то стоящее?",
+        "Смерть — это не то, что будет, а то, что происходит сейчас. Ушедшее время уже принадлежит смерти.",
+        "Смерть не будет ждать, пока ты найдешь 'идеальный момент'.",
+        "4680 недель — это лишь статистика. У тебя нет гарантий даже на завтра.",
+    ],
+    "en": [
+        "168 hours gone forever. Did you move closer to your true self?",
+        "Tick-tock. Another week crossed out. Your time is melting away.",
+        "Time is not infinite. Are you strictly spending it on what matters?",
+        "Monday. Stop fooling yourself that you will start 'living' tomorrow.",
+        "Memento Mori. Remember death to truly live.",
+        "Your time is limited, don't waste it living someone else's life.",
+        "If this week were your last, would you be satisfied with how you spent it?",
+        "Minus one week. Have you created anything of value?",
+        "Death is not an event in the future; it is happening now. The time passed belongs to death.",
+        "Death won't wait for you to find the 'perfect moment'.",
+        "4680 weeks is just an average. You are not guaranteed tomorrow.",
+    ],
+}
