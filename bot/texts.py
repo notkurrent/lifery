@@ -11,6 +11,9 @@ PHRASES = {
         "Смерть — это не то, что будет, а то, что происходит сейчас. Ушедшее время уже принадлежит смерти.",
         "Смерть не будет ждать, пока ты найдешь 'идеальный момент'.",
         "4680 недель — это лишь статистика. У тебя нет гарантий даже на завтра.",
+        "Прошлое мертво. Будущее туманно. У тебя есть только эта неделя. Сделай её легендарной.",
+        "Не считай дни, сделай так, чтобы каждый день считался.",
+        "Страх смерти хуже самой смерти. Бойся не конца, а того, что так и не начнёшь.",
     ],
     "en": [
         "168 hours gone forever. Did you move closer to your true self?",
@@ -24,5 +27,8 @@ PHRASES = {
         "Death is not an event in the future; it is happening now. The time passed belongs to death.",
         "Death won't wait for you to find the 'perfect moment'.",
         "4680 weeks is just an average. You are not guaranteed tomorrow.",
+        "The past is dead. The future is uncertain. You own this week. Make it legendary.",
+        "Don't count the days, make the days count.",
+        "Fear of death is worse than death itself. Fear not the end, but never beginning.",
     ],
 }
