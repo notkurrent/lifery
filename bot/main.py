@@ -262,7 +262,7 @@ def main():
     job_queue.run_daily(
         send_weekly_motivation,
         time=datetime.time(hour=12, minute=0, tzinfo=datetime.timezone.utc),
-        days=(0,),
+        days=(1,),
     )
 
     application.run_polling()
