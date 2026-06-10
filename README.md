@@ -6,7 +6,7 @@ A Telegram bot that reminds you of the transience of time by visualizing the wee
 
 ## 🚀 Features
 * 📅 **Life Calendar:** The user enters their birth date, and the bot calculates the weeks lived (based on an average lifespan of 4680 weeks).
-* 🔔 **Weekly Reminders:** Every Monday at 12:00 UTC, users receive a notification with the number of weeks passed and a motivating quote.
+* 🔔 **Weekly Reminders:** Every Monday at 12:00 UTC, users receive a notification with the number of weeks passed and a curated reminder from RU/EN content banks.
 * 🌍 **Auto-Localization:** Automatically detects the user's language (EN/RU) based on Telegram settings.
 * 🛡 **Robust Architecture:** Fully asynchronous code, resilient to high loads, restarts, and network failures.
 
@@ -16,6 +16,13 @@ A Telegram bot that reminds you of the transience of time by visualizing the wee
 * **PostgreSQL** (Database)
 * **SQLAlchemy + asyncpg** (Asynchronous ORM)
 * **Docker & Docker Compose** (Containerization)
+
+## ✍️ Content
+Weekly reminder copy is stored in curated JSON content banks:
+* `bot/content/weekly_phrases_ru.json`
+* `bot/content/weekly_phrases_en.json`
+
+The bot reads full ready-to-send phrases from these files. Phrases are unique within each content bank; if a user's week number is higher than the current bank size, the bot cycles through the bank until more phrases are added.
 
 ## ⚙️ Installation & Setup
 

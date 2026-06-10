@@ -1,34 +1,42 @@
-PHRASES = {
-    "ru": [
-        "168 часов ушли навсегда. Ты стал ближе к тому, кем хочешь быть?",
-        "Тик-так. Еще одна неделя вычеркнута. Твое время тает.",
-        "Жизнь не резиновая. Ты уверен, что тратишь её на то, что действительно важно?",
-        "Понедельник. Не обманывай себя, что начнешь 'новую жизнь' завтра.",
-        "Memento Mori. Помни о смерти, чтобы по-настоящему жить.",
-        "Твое время ограничено. Не трать его, проживая чужую жизнь.",
-        "Если бы эта неделя была последней в твоей жизни, ты был бы доволен?",
-        "Минус одна неделя. Ты оставил после себя что-то стоящее?",
-        "Смерть — это не то, что будет, а то, что происходит сейчас. Ушедшее время уже принадлежит смерти.",
-        "Смерть не будет ждать, пока ты найдешь 'идеальный момент'.",
-        "4680 недель — это лишь статистика. У тебя нет гарантий даже на завтра.",
-        "Прошлое мертво. Будущее туманно. У тебя есть только эта неделя. Сделай её легендарной.",
-        "Не считай дни, сделай так, чтобы каждый день считался.",
-        "Страх смерти хуже самой смерти. Бойся не конца, а того, что так и не начнёшь.",
-    ],
-    "en": [
-        "168 hours gone forever. Did you move closer to your true self?",
-        "Tick-tock. Another week crossed out. Your time is melting away.",
-        "Time is not infinite. Are you strictly spending it on what matters?",
-        "Monday. Stop fooling yourself that you will start 'living' tomorrow.",
-        "Memento Mori. Remember death to truly live.",
-        "Your time is limited, don't waste it living someone else's life.",
-        "If this week were your last, would you be satisfied with how you spent it?",
-        "Minus one week. Have you created anything of value?",
-        "Death is not an event in the future; it is happening now. The time passed belongs to death.",
-        "Death won't wait for you to find the 'perfect moment'.",
-        "4680 weeks is just an average. You are not guaranteed tomorrow.",
-        "The past is dead. The future is uncertain. You own this week. Make it legendary.",
-        "Don't count the days, make the days count.",
-        "Fear of death is worse than death itself. Fear not the end, but never beginning.",
-    ],
-}
+import json
+from functools import lru_cache
+from pathlib import Path
+
+
+TOTAL_WEEKS = 4680
+CONTENT_DIR = Path(__file__).resolve().parent / "content"
+
+
+def _normalise_language(language_code: str) -> str:
+    if not language_code:
+        return "en"
+    return "ru" if language_code.lower().startswith("ru") else "en"
+
+
+@lru_cache(maxsize=2)
+def _load_phrases(language: str) -> list[str]:
+    path = CONTENT_DIR / f"weekly_phrases_{language}.json"
+    with path.open(encoding="utf-8") as file:
+        phrases = json.load(file)
+
+    _validate_phrases(language, phrases)
+    return phrases
+
+
+def _validate_phrases(language: str, phrases: list[str]) -> None:
+    if not isinstance(phrases, list) or not phrases:
+        raise RuntimeError(f"{language}: phrases must be a non-empty list")
+
+    cleaned_phrases = [phrase.strip() for phrase in phrases]
+    if any(not phrase for phrase in cleaned_phrases):
+        raise RuntimeError(f"{language}: phrases must not contain empty strings")
+
+    if len(cleaned_phrases) != len(set(cleaned_phrases)):
+        raise RuntimeError(f"{language}: phrases must be unique")
+
+
+def get_week_phrase(language_code: str, weeks_passed: int) -> str:
+    language = _normalise_language(language_code)
+    phrases = _load_phrases(language)
+    week_index = min(max(weeks_passed, 0), TOTAL_WEEKS - 1)
+    return phrases[week_index % len(phrases)]

@@ -1,6 +1,5 @@
 import os
 import logging
-import random
 import datetime
 from telegram import Update
 from telegram.ext import (
@@ -11,7 +10,7 @@ from telegram.ext import (
     filters,
 )
 from bot.db import init_db, AsyncSessionLocal, User
-from bot.texts import PHRASES
+from bot.texts import TOTAL_WEEKS, get_week_phrase
 from sqlalchemy.future import select
 from dotenv import load_dotenv
 
@@ -24,7 +23,7 @@ logging.basicConfig(
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# UI texts for the interface (to avoid cluttering PHRASES)
+# UI texts for the interface (to keep weekly phrases separate)
 UI_TEXTS = {
     "ru": {
         "welcome": "Добро пожаловать в Lifery! 👋\n\nПожалуйста, введите дату рождения в формате ДД.ММ.ГГГГ",
@@ -128,10 +127,9 @@ async def handle_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # --- INSTANT FEEDBACK LOGIC ---
     today = datetime.date.today()
     weeks_passed = (today - birth_date).days // 7
-    total_weeks = 4680
+    total_weeks = TOTAL_WEEKS
 
-    # Pick a random quote
-    quote = random.choice(PHRASES.get(lang, PHRASES["en"]))
+    quote = get_week_phrase(lang, weeks_passed)
 
     # Format message
     intro = UI_TEXTS[lang]["week_msg"].format(weeks=weeks_passed, total=total_weeks)
@@ -151,14 +149,14 @@ async def send_weekly_motivation(context: ContextTypes.DEFAULT_TYPE):
 
         for user in users:
             weeks_passed = (today - user.birth_date).days // 7
-            total_weeks = 4680
+            total_weeks = TOTAL_WEEKS
             # User proper language check for saved users
             lang = (
                 "ru"
                 if user.language_code and user.language_code.lower().startswith("ru")
                 else "en"
             )
-            phrase = random.choice(PHRASES.get(lang, PHRASES["en"]))
+            phrase = get_week_phrase(lang, weeks_passed)
 
             if lang == "ru":
                 message = f"⏳ Неделя <b>{weeks_passed}</b> из {total_weeks}.\n\n<i>{phrase}</i>"
@@ -193,7 +191,7 @@ async def profile(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     today = datetime.date.today()
     weeks_lived = (today - user.birth_date).days // 7
-    total_weeks = 4680
+    total_weeks = TOTAL_WEEKS
     weeks_left = total_weeks - weeks_lived
     percentage = int((weeks_lived / total_weeks) * 100)
     percentage = min(100, max(0, percentage))  # clamp 0-100
